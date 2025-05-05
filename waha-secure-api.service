@@ -1,0 +1,17 @@
+[Unit]
+Description=WAHA Secure API Service
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+WorkingDirectory=%d
+ExecStart=%d/venv/bin/python %d/main.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=waha-secure-api
+
+[Install]
+WantedBy=multi-user.target
