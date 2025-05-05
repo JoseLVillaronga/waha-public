@@ -1,4 +1,5 @@
 # WAHA Secure API
+![ChatGPT Image 5 may 2025, 20_26_52](https://github.com/user-attachments/assets/13847c92-2f8c-47e9-b2a5-6c1dd5560742)
 
 Una interfaz segura para la API WAHA local que proporciona autenticación mediante clave API de 256 bits.
 
