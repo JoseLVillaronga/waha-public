@@ -13,7 +13,7 @@ API_KEY = os.getenv("PUB_WAHA_KEY")
 API_PORT = int(os.getenv("PUB_WAHA_PORT", "22100"))
 
 # WAHA API configuration
-WAHA_API_URL = os.getenv("WAHA_API_URL", "http://192.168.1.33:3000/api")
+WAHA_API_URL = os.getenv("WAHA_API_URL", "http://127.0.0.1:3000/api")
 
 app = FastAPI(title="WAHA Secure API", description="Secure interface for WAHA API")
 
@@ -63,17 +63,21 @@ async def send_text(message: TextMessage, _: str = Depends(verify_api_key)):
         if response.status_code in [200, 201]:
             # La API WAHA devuelve un objeto JSON con los detalles del mensaje
             # Si llegamos aquí, consideramos que el mensaje se envió correctamente
-            response_data = response.json()
             message_id = ""
 
             # Intentamos extraer el ID del mensaje de la respuesta
             try:
-                if isinstance(response_data, dict):
-                    if "id" in response_data:
-                        message_id = response_data.get("id", {}).get("_serialized", "")
-                    elif "_data" in response_data and "id" in response_data["_data"]:
-                        message_id = response_data["_data"]["id"].get("_serialized", "")
+                # Verificar si la respuesta tiene contenido antes de intentar parsear JSON
+                if response.text.strip():
+                    response_data = response.json()
+                    if isinstance(response_data, dict):
+                        if "id" in response_data:
+                            message_id = response_data.get("id", {}).get("_serialized", "")
+                        elif "_data" in response_data and "id" in response_data["_data"]:
+                            message_id = response_data["_data"]["id"].get("_serialized", "")
             except Exception:
+                # Si no podemos parsear la respuesta, no es un error crítico
+                # ya que el código de estado indica éxito
                 pass
 
             return MessageResponse(

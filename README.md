@@ -144,10 +144,12 @@ Todas las solicitudes a la API deben incluir el encabezado `X-API-Key` con la cl
   "success": true,
   "message": "Message sent successfully",
   "data": {
-    "message_id": "true_5491122334455@c.us_ABC123DEF456GHI789_out"
+    "message_id": ""
   }
 }
 ```
+
+**Nota:** El campo `message_id` puede estar vacío dependiendo de la respuesta de la API WAHA. El éxito de la operación se determina por el campo `success: true`.
 
 **Respuesta de error:**
 ```json
@@ -307,3 +309,11 @@ Una vez que el servidor esté en funcionamiento, puedes acceder a la documentaci
 
 1. Verifica que estás utilizando la clave API correcta en el encabezado `X-API-Key`.
 2. Comprueba que la clave API en el archivo `.env` coincida con la que estás utilizando en las solicitudes.
+
+### Error "Expecting value: line 1 column 1 (char 0)"
+
+Este error se ha corregido en la versión actual. Si aún lo experimentas:
+
+1. Reinicia el servicio: `sudo systemctl restart waha-secure-api.service`
+2. Verifica que estés usando la versión más reciente del código
+3. El mensaje se envía correctamente aunque aparezca este error (verifica en WhatsApp)
